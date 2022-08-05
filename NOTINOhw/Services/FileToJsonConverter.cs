@@ -1,12 +1,32 @@
-﻿namespace NOTINOhw.Services
+﻿using Newtonsoft.Json;
+using NOTINOhw.Components;
+using System.Xml;
+
+namespace NOTINOhw.Services
 {
-	public class FileToJsonConverter : FileConversionInterface
+	public class FileToJsonConverter
 	{
-		public FileToJsonConverter() { }
+		private readonly StorageInterface storage;
+		private const string jsonFileExtension = ".json";
+
+		public FileToJsonConverter(StorageInterface storage)
+		{
+			this.storage = storage;
+		}
 		public string ConvertFile(IFormFile file)
 		{
-			var targetFileName = Path.Combine(Environment.CurrentDirectory, "..\\..\\..\\Target Files\\Document1.json");
-			return Environment.CurrentDirectory;
+			string savedFilePath = "";
+			using (var stram = file.OpenReadStream())
+            {
+				StreamReader sr = new StreamReader(stram);
+				string text = sr.ReadToEnd();
+                XmlDocument doc = new XmlDocument();
+				doc.LoadXml(text);
+				string json = JsonConvert.SerializeXmlNode(doc);
+				savedFilePath = storage.SaveFile(Path.GetFileNameWithoutExtension(file.FileName) + jsonFileExtension, json);
+
+			}
+			return Path.GetFullPath(savedFilePath);
 		}
 	}
 }
