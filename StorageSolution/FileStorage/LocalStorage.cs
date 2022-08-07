@@ -1,11 +1,13 @@
-﻿namespace NOTINOhw.Components
+﻿using Microsoft.Extensions.Configuration;
+
+namespace StorageSolution
 {
-    public class LocalStorage : StorageInterface
+    public class LocalStorage : IStorage
     {
         public string SaveFolder { get; set; }
         public LocalStorage(IConfiguration configuration)
         {
-            this.SaveFolder = configuration["LocalStorage:SaveFolder"];
+            SaveFolder = configuration.GetValue<string>("LocalStorage:SaveFolder");
             if (!Directory.Exists(SaveFolder))
             {
                 Directory.CreateDirectory(SaveFolder);

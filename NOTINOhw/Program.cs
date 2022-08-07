@@ -1,21 +1,20 @@
-using NOTINOhw.Components;
-using NOTINOhw.Services;
+using NOTINOhw.Components.FileConvertor;
+using StorageSolution;
+using MailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-builder.Services.AddTransient<FileToJsonConverter>();
-builder.Services.AddTransient<FileToXmlConverter>();
-builder.Services.AddTransient<StorageInterface, LocalStorage>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton<FileToJsonConvertor>();
+builder.Services.AddSingleton<FileToXmlConvertor>();
+builder.Services.AddSingleton<IStorage, LocalStorage>();
+builder.Services.AddSingleton<ConvertedFilesMailSender>();
+builder.Services.AddSingleton<FileConvertorFacade>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

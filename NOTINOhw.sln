@@ -5,6 +5,10 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NOTINOhw", "NOTINOhw\NOTINOhw.csproj", "{A6DBACAA-E6E1-4C6F-8C2A-C10B861D7F50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailSender", "MailSender\MailSender.csproj", "{CC798651-B3A5-434D-9EE3-D23490AD7080}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageSolution", "StorageSolution\StorageSolution.csproj", "{D47959E4-449D-427D-AACC-C9802F1E3229}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{A6DBACAA-E6E1-4C6F-8C2A-C10B861D7F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6DBACAA-E6E1-4C6F-8C2A-C10B861D7F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6DBACAA-E6E1-4C6F-8C2A-C10B861D7F50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC798651-B3A5-434D-9EE3-D23490AD7080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC798651-B3A5-434D-9EE3-D23490AD7080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC798651-B3A5-434D-9EE3-D23490AD7080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC798651-B3A5-434D-9EE3-D23490AD7080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D47959E4-449D-427D-AACC-C9802F1E3229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D47959E4-449D-427D-AACC-C9802F1E3229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D47959E4-449D-427D-AACC-C9802F1E3229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D47959E4-449D-427D-AACC-C9802F1E3229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

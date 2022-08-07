@@ -1,6 +1,6 @@
-﻿namespace NOTINOhw.Components
+﻿namespace StorageSolution
 {
-    public interface StorageInterface
+    public interface IStorage
     {
         public string SaveFile(string fileName, string contents);
     }

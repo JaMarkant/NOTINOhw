@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-using NOTINOhw.Services;
+using NOTINOhw.Components.FileConvertor;
+using MailSender;
 
 namespace NOTINOhw.Controllers
 {
@@ -9,51 +10,74 @@ namespace NOTINOhw.Controllers
     [ApiController]
     public class ConversionController : ControllerBase
     {
-        private readonly FileToJsonConverter fileToJsonConverter;
-        private readonly FileToXmlConverter fileToXmlConverter;
+        private readonly FileConvertorFacade fileConvertorFacade;
+        private readonly ConvertedFilesMailSender mailSender;
 
-        private string[] AcceptableTypes { get; set; }
-
-        public ConversionController(FileToJsonConverter fileToJsonConverter, FileToXmlConverter fileToXmlConverter)
+        public ConversionController(FileConvertorFacade fileConvertorFacade, ConvertedFilesMailSender mailSender)
         {
-            this.fileToJsonConverter = fileToJsonConverter;
-            this.fileToXmlConverter = fileToXmlConverter;
-            AcceptableTypes = new string[] { ".json", ".xml"};
+            this.fileConvertorFacade = fileConvertorFacade;
+            this.mailSender = mailSender;
         }
+
         [HttpPost("convert-file")]
-        public async Task<IActionResult> ConvertFile(IFormFile file)
+        public async Task<IActionResult> ConvertFile(IFormFile file, FileConvertorFacade.ConvertTo convertTo, string? emailAddress)
         {
 
             if (file.Length > 0)
             {
-                string pathExtension = Path.GetExtension(file.FileName);
-                if (AcceptableTypes.Contains(pathExtension))
+                string savedFilePath;
+                try
                 {
-                    string savedFile = "";
-                    switch (pathExtension)
-                    {
-                        case ".xml":
-                            savedFile = fileToJsonConverter.ConvertFile(file);
-                            break;
-                        case ".json":
-                            savedFile = fileToXmlConverter.ConvertFile(file);
-                            break;
-                    }
-                    var provider = new FileExtensionContentTypeProvider();
-                    if (!provider.TryGetContentType(savedFile, out var contentType))
-                    {
-                        contentType = "application/octet-stream";
-                    }
-                    var bytes = await System.IO.File.ReadAllBytesAsync(savedFile);
-                    return File(bytes, contentType, Path.GetFileName(savedFile));
+                    savedFilePath = fileConvertorFacade.ConvertFile(file, convertTo);
+                }
+                catch (Exception e)
+                {
+                    return ValidationProblem(e.Message);
+                }
 
-                }
-                else
+                if (emailAddress != null)
                 {
-                    return ValidationProblem();
+                    mailSender.sendConvertedFile(emailAddress, savedFilePath);
                 }
+
+                FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
+                if (!provider.TryGetContentType(savedFilePath, out string? contentType))
+                {
+                    contentType = "application/octet-stream";
+                }
+                byte[] bytes = await System.IO.File.ReadAllBytesAsync(savedFilePath);
+
+                return File(bytes, contentType, Path.GetFileName(savedFilePath));
             }
-            return Ok(fileToJsonConverter.ConvertFile(file) + "    " + fileToXmlConverter.ConvertFile(file));
+            return BadRequest();
+        }
+
+        [HttpPost("convert-file-from-url")]
+        public async Task<IActionResult> ConvertFileFromUrl(string fileUrl, FileConvertorFacade.ConvertTo convertTo, string? emailAddress)
+        {
+            string savedFilePath;
+            try
+            {
+                savedFilePath = fileConvertorFacade.ConvertFileFromUrl(fileUrl, convertTo);
+            }
+            catch (Exception e)
+            {
+                return ValidationProblem(e.Message);
+            }
+
+            if (emailAddress != null)
+            {
+                mailSender.sendConvertedFile(emailAddress, savedFilePath);
+            }
+
+            FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(savedFilePath, out string? contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            byte[] bytes = await System.IO.File.ReadAllBytesAsync(savedFilePath);
+
+            return File(bytes, contentType, Path.GetFileName(savedFilePath));
         }
     }
 }
