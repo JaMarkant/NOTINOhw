@@ -1,5 +1,5 @@
 # NOTINOhw
-##Problémy s původním kódem
+## Problémy s původním kódem
 - Nemožnost výběru vstupních souborů -> vstup uživatele
 - Document třída do vlastního souboru
 - Proměnná input je použita mimo blok, kde je vytvořena -> deklarace před try-catch
