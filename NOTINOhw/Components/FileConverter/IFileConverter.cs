@@ -1,6 +1,6 @@
-﻿namespace NOTINOhw.Components.FileConvertor
+﻿namespace NOTINOhw.Components.FileConverter
 {
-    public interface IFileConvertor
+    public interface IFileConverter
     {
         public string ConvertFile(IFormFile file);
         public string ConvertFile(string url);

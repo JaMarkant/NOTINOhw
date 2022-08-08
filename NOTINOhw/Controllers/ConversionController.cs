@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-using NOTINOhw.Components.FileConvertor;
+using NOTINOhw.Components.FileConverter;
 using MailSender;
 
 namespace NOTINOhw.Controllers
@@ -10,17 +10,17 @@ namespace NOTINOhw.Controllers
     [ApiController]
     public class ConversionController : ControllerBase
     {
-        private readonly FileConvertorFacade fileConvertorFacade;
+        private readonly FileConverterFacade fileConvertorFacade;
         private readonly ConvertedFilesMailSender mailSender;
 
-        public ConversionController(FileConvertorFacade fileConvertorFacade, ConvertedFilesMailSender mailSender)
+        public ConversionController(FileConverterFacade fileConvertorFacade, ConvertedFilesMailSender mailSender)
         {
             this.fileConvertorFacade = fileConvertorFacade;
             this.mailSender = mailSender;
         }
 
         [HttpPost("convert-file")]
-        public async Task<IActionResult> ConvertFile(IFormFile file, FileConvertorFacade.ConvertTo convertTo, string? emailAddress)
+        public async Task<IActionResult> ConvertFile(IFormFile file, FileConverterFacade.ConvertTo convertTo, string? emailAddress)
         {
 
             if (file.Length > 0)
@@ -53,7 +53,7 @@ namespace NOTINOhw.Controllers
         }
 
         [HttpPost("convert-file-from-url")]
-        public async Task<IActionResult> ConvertFileFromUrl(string fileUrl, FileConvertorFacade.ConvertTo convertTo, string? emailAddress)
+        public async Task<IActionResult> ConvertFileFromUrl(string fileUrl, FileConverterFacade.ConvertTo convertTo, string? emailAddress)
         {
             string savedFilePath;
             try

@@ -1,18 +1,22 @@
-using NOTINOhw.Components.FileConvertor;
+using NOTINOhw.Components.FileConverter;
 using StorageSolution;
 using MailSender;
+using NOTINOhw;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<FileToJsonConvertor>();
-builder.Services.AddSingleton<FileToXmlConvertor>();
+builder.Services.AddSingleton<FileToJsonConverter>();
+builder.Services.AddSingleton<FileToXmlConverter>();
 builder.Services.AddSingleton<IStorage, LocalStorage>();
 builder.Services.AddSingleton<ConvertedFilesMailSender>();
-builder.Services.AddSingleton<FileConvertorFacade>();
+builder.Services.AddSingleton<FileConverterFacade>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+    {
+        options.SchemaFilter<EnumSchemaFilter>();
+    });
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -3,15 +3,15 @@ using StorageSolution;
 using System.Net;
 using System.Xml;
 
-namespace NOTINOhw.Components.FileConvertor
+namespace NOTINOhw.Components.FileConverter
 {
-    public class FileToJsonConvertor : IFileConvertor
+    public class FileToJsonConverter : IFileConverter
     {
         private readonly IStorage Storage;
         private const string JsonFileExtension = ".json";
         private readonly string[] AccepteableTypes = { ".xml" };
 
-        public FileToJsonConvertor(IStorage storage)
+        public FileToJsonConverter(IStorage storage)
         {
             this.Storage = storage;
         }

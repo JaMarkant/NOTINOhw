@@ -4,23 +4,35 @@ namespace StorageSolution
 {
     public class LocalStorage : IStorage
     {
-        public string SaveFolder { get; set; }
+        private string SaveDirectory { get; set; }
         public LocalStorage(IConfiguration configuration)
         {
-            SaveFolder = configuration.GetValue<string>("LocalStorage:SaveFolder");
-            if (!Directory.Exists(SaveFolder))
+            SaveDirectory = configuration.GetValue<string>("LocalStorage:SaveFolder");
+            if (!Directory.Exists(SaveDirectory))
             {
-                Directory.CreateDirectory(SaveFolder);
+                Directory.CreateDirectory(SaveDirectory);
             }
+        }
+        public LocalStorage(string saveFolderPath)
+        {
+            SaveDirectory = saveFolderPath;
+            CheckDirectoryExistsAndCreate(SaveDirectory);
         }
         public string SaveFile(string fileName, string contents)
         {
-            string savedFilePath = Path.Combine(SaveFolder, fileName);
+            string savedFilePath = Path.Combine(SaveDirectory, fileName);
             using (StreamWriter writer = new StreamWriter(savedFilePath))
             {
                 writer.Write(contents);
             }
             return savedFilePath;
+        }
+        private void CheckDirectoryExistsAndCreate(string saveDirectory)
+		{
+            if (!Directory.Exists(SaveDirectory))
+            {
+                Directory.CreateDirectory(SaveDirectory);
+            }
         }
     }
 }

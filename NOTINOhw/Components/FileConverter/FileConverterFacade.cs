@@ -1,12 +1,12 @@
-﻿namespace NOTINOhw.Components.FileConvertor
+﻿namespace NOTINOhw.Components.FileConverter
 {
-    public class FileConvertorFacade
+    public class FileConverterFacade
     {
-        private readonly FileToJsonConvertor fileToJsonConvertor;
-        private readonly FileToXmlConvertor fileToXmlConvertor;
+        private readonly FileToJsonConverter fileToJsonConvertor;
+        private readonly FileToXmlConverter fileToXmlConvertor;
         private List<string> CovertorsAcceptableTypes;
 
-        public FileConvertorFacade(FileToJsonConvertor fileToJsonConvertor, FileToXmlConvertor fileToXmlConvertor)
+        public FileConverterFacade(FileToJsonConverter fileToJsonConvertor, FileToXmlConverter fileToXmlConvertor)
         {
             this.fileToJsonConvertor = fileToJsonConvertor;
             this.fileToXmlConvertor = fileToXmlConvertor;
@@ -65,8 +65,8 @@
 
         public enum ConvertTo
         {
-            xml,
-            json
+            xml = 1,
+            json =2
         }
     }
 }

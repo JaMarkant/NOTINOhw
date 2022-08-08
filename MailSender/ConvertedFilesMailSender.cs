@@ -23,6 +23,17 @@ namespace MailSender
             SmtpPassword = configuration.GetValue<string>("EmailConfiguration:Password");
             SmtpClient = new SmtpClient();
         }
+        //used for tests
+        public ConvertedFilesMailSender()
+        {
+            FromName = string.Empty;
+            FromAddress = string.Empty;
+            SmtpServer = string.Empty;
+            SmtpPort = 0;
+            SmtpUsername = string.Empty;
+            SmtpPassword = string.Empty;
+            SmtpClient = new SmtpClient();
+        }
         public void sendConvertedFile(string emailAddress, string filePath)
         {
             MimeMessage message = new MimeMessage();
